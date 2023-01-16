@@ -1,0 +1,34 @@
+[
+  {
+    "Id": "test1",
+    "Logo": "/images/Logo.svg",
+    "LogoMobile": "/images/logo-mobile.svg",
+    "SiteURL": "",
+    "Navbar": {
+      "Exclude": [],
+      "Style": {
+        "Background": "#fff",
+        "Color": "#102a47",
+        "IconColor": "#8fa1b6",
+        "PrimaryColor": "#E30613",
+        "SecondaryColor": "rgba(227, 6, 19, 0.05)"
+      }
+    }
+  },
+  {
+    "Id": "test2",
+    "Logo": "https://www.e-courier.com/wp-content/uploads/2019/12/e-Courier_logo-1.svg",
+    "LogoMobile": "https://www.e-courier.com/wp-content/uploads/2019/12/e-Courier_logo-1.svg",
+    "SiteURL": "",
+    "Navbar": {
+      "Exclude": ["Reports"],
+      "Style": {
+        "Background": "#b4ffff",
+        "Color": "#000",
+        "IconColor": "#000",
+        "PrimaryColor": "#E30613",
+        "SecondaryColor": "rgba(227, 6, 19, 0.05)"
+      }
+    }
+  }
+]

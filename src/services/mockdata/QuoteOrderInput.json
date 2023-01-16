@@ -1,0 +1,46 @@
+{
+  "Order": {
+    "CustomerCode": "10017",
+    "Service": "Route",
+    "Auth": "10017",
+    "Stops": {
+      "Stop": [
+        {
+          "Sequence": "1",
+          "StopType": "P",
+          "ScheduledDateTime": "11/13/2019 6:00:00 AM",
+          "Name": "James Madison",
+          "Address": "2251 Orange Blossom Trail",
+          "City": "Orlando",
+          "State": "FL",
+          "Zip": "32804",
+          "Country": "USA",
+          "Phone": "3015551212",
+          "OrderStopPieces": {
+            "OrderStopPiece": {
+              "PieceAction": "P",
+              "Sequence": "1"
+            }
+          }
+        },
+        {
+          "Sequence": "2",
+          "StopType": "D",
+          "Name": "Bryan Moore",
+          "Address": "2253 Orange Blossom Trail",
+          "City": "Orlando",
+          "State": "FL",
+          "Zip": "32804",
+          "Country": "USA",
+          "Phone": "3015551212",
+          "OrderStopPieces": {
+            "OrderStopPiece": {
+              "PieceAction": "D",
+              "Sequence": "1"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

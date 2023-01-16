@@ -1,0 +1,40 @@
+@import "@blueprintjs/core/lib/scss/variables";
+
+$pt-border-radius: 5px;
+
+.#{$ns}-input,
+.#{$ns}-button,
+.#{$ns}-control.#{$ns}-checkbox .#{$ns}-control-indicator {
+  border-radius: 5px;
+}
+
+.#{$ns}-input {
+  border: 1px solid #d9d9d9;
+  box-shadow: none;
+}
+
+.#{$ns}-tag > .#{$ns}-fill {
+  font-weight: 600;
+}
+
+.#{$ns}-intent-warning {
+  background-color: rgba(255, 129, 78, 0.1) !important;
+  color: #ff884e !important;
+}
+
+.#{$ns}-intent-none {
+  background-color: rgba(16, 42, 71, 0.1) !important;
+  color: #102a47 !important;
+}
+
+.#{$ns}-intent-success {
+  background-color: #e9f6f0 !important;
+  color: #25a567 !important;
+}
+
+.#{$ns}-portal {
+  :is(.bp4-popover2-transition-container, .bp4-popover2, .bp4-popover2-content) {
+    border-radius: 6px;
+    box-shadow: 0 2px 6px 2px rgba(44, 58, 110, 0.1);
+  }
+}

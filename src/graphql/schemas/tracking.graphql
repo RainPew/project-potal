@@ -1,0 +1,13 @@
+scalar JSON
+
+type GetJsonOrderResponse {
+  Order: JSON
+}
+
+type Mutation {
+  GetJsonOrder(input: GetOrderInput!): GetJsonOrderResponse
+}
+
+input GetOrderInput {
+  OrderNumber: String!
+}

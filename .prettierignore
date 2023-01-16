@@ -1,0 +1,4 @@
+src/generated/graphql.ts
+node_modules
+build
+src/index_compiled.css

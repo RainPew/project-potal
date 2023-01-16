@@ -1,0 +1,117 @@
+@import "~normalize.css";
+@import "~@blueprintjs/core/lib/css/blueprint.css";
+@import "~@blueprintjs/icons/lib/css/blueprint-icons.css";
+@import "~@blueprintjs/table/lib/css/table.css";
+@import "~@blueprintjs/popover2/lib/css/blueprint-popover2.css";
+@import "antd/dist/antd.min.css";
+.spaces-resize-handle {
+  background-color: #f6f7f9;
+  width: 3px !important;
+}
+.fade-in {
+  -ms-animation: fadeIn ease 1s;
+  -webkit-animation: fadeIn ease 1s;
+  -moz-animation: fadeIn ease 1s;
+  -o-animation: fadeIn ease 1s;
+  animation: fadeIn ease 1s;
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.ant-timeline-item-content {
+  margin: 0 0 0 20px !important;
+}
+
+.hidden-visibility {
+  visibility: hidden;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+@-ms-keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.table_orders,
+.table_orders * {
+  border-color: transparent !important;
+}
+
+.table_orders .bp4-table-header {
+  background-color: white;
+  font-weight: bold;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+
+.table_orders .bp4-table-column-name {
+  font-size: 15px;
+  color: #000a44;
+}
+.table_orders .bp4-table-body-cells .bp4-table-cell {
+  background-color: #f5f8fb;
+  padding-top: 12px;
+  padding-bottom: 12px;
+}
+button.gm-ui-hover-effect {
+  visibility: hidden;
+}
+.map-info .gm-style .gm-style-iw-c {
+  background: none;
+  box-shadow: none;
+}
+.map-info .gm-style .gm-style-iw-tc::after {
+  display: none;
+}
+.map-info .gm-style .gm-style-iw-d {
+  background: none;
+}
+.map-info .gm-style .gm-style-iw-d::-webkit-scrollbar-track,
+.gm-style .gm-style-iw-d::-webkit-scrollbar-track-piece {
+  background: none;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}

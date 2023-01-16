@@ -1,0 +1,15 @@
+type LoginResponse {
+  status: String
+  UserGUID: String
+}
+
+type Mutation {
+  login(input: LoginInput!): LoginResponse
+}
+
+input LoginInput {
+  username: String!
+  password: String!
+  website: String!
+  loginmode: String!
+}

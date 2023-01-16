@@ -1,0 +1,5 @@
+{
+  "schemaPath": "src/graphql/schemas",
+  "documents": "src/graphql/**/*.ts",
+  "includes": ["src/**/*.tsx"]
+}

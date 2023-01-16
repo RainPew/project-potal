@@ -1,0 +1,40 @@
+{
+  "mQuoteOrderResponse": {
+    "@xmlns:m": "http://www.e-courier.com/schemas/",
+    "@AVSStops": "1,1",
+    "Order": [
+      {
+        "@Service": "Appointmnt",
+        "@Description": "Appointment",
+        "@ReadyDateTime": "11/13/2019 06:00",
+        "@DueDateTime": "01/15/20 23:59",
+        "@AmountCharged": "$85.00",
+        "@DriverCode": ""
+      },
+      {
+        "@Service": "Direct",
+        "@Description": "Direct",
+        "@ReadyDateTime": "11/13/2019 06:00",
+        "@DueDateTime": "11/13/19 09:00",
+        "@AmountCharged": "$100.00",
+        "@DriverCode": ""
+      },
+      {
+        "@Service": "Regular",
+        "@Description": "Regular",
+        "@ReadyDateTime": "11/13/2019 06:00",
+        "@DueDateTime": "11/13/19 09:00",
+        "@AmountCharged": "$45.00",
+        "@DriverCode": ""
+      },
+      {
+        "@Service": "SameDay",
+        "@Description": "Same Day",
+        "@ReadyDateTime": "11/13/2019 06:00",
+        "@DueDateTime": "11/13/19 09:00",
+        "@AmountCharged": "$30.00",
+        "@DriverCode": ""
+      }
+    ]
+  }
+}

@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: BasierCircle;
+  font-weight: 400;
+  src: url("./fonts/BasierCircle/BasierCircle-Regular.woff2") format("woff2"),
+    url("./fonts/BasierCircle/BasierCircle-Regular.woff") format("woff");
+}
+@font-face {
+  font-family: BasierCircle;
+  font-weight: 500;
+  src: url("./fonts/BasierCircle//BasierCircle-Medium.woff2") format("woff2"),
+    url("./fonts/BasierCircle/BasierCircle-Medium.woff") format("woff");
+}
+
+@font-face {
+  font-family: BasierCircle;
+  font-weight: 700;
+  src: url("./fonts/BasierCircle//BasierCircle-Bold.woff2") format("woff2"),
+    url("./fonts/BasierCircle/BasierCircle-Bold.woff") format("woff");
+}
+
+@font-face {
+  font-family: BasierCircle;
+  font-weight: 600;
+  src: url("./fonts/BasierCircle//BasierCircle-SemiBold.woff2") format("woff2"),
+    url("./fonts/BasierCircle/BasierCircle-SemiBold.woff") format("woff");
+}
+
+body {
+  margin: 0;
+  font-family: BasierCircle, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+    monospace;
+}
+
+.react-datepicker__day.react-datepicker__day--outside-month,
+.react-datepicker__day--selected.react-datepicker__day--outside-month {
+  color: rgba(0, 0, 0, 0);
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0);
+}
+
+.custom-ant-time-picker-popup li.ant-picker-ok button,
+.custom-ant-time-picker-popup li.ant-picker-ok button:hover {
+  background-color: #14305a;
+}
+
+.custom-ant-time-picker-popup li.ant-picker-ok button[disabled] {
+  background-color: #ffffff !important;
+}
+
+.ant-picker-input > input::placeholder {
+  color: #8da4be;
+}
+.ant-switch-checked {
+  background-color: #102a47;
+}
+
+/* custom toast */
+.customtoast > div[role="status"] {
+  margin: 0px !important;
+}

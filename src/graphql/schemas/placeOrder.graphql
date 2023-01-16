@@ -1,0 +1,18 @@
+scalar JSON
+
+type GetQuoteOrderResponse {
+  mQuoteOrderResponse: JSON
+}
+
+type SaveOrderResponse {
+  Status: JSON
+}
+
+type Mutation {
+  GetQuoteOrder(input: QuoteOrderInput!): GetQuoteOrderResponse
+  saveOrders(input: QuoteOrderInput!): SaveOrderResponse
+}
+
+input QuoteOrderInput {
+  Order: JSON!
+}

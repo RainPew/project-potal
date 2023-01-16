@@ -1,0 +1,98 @@
+.antSelectContainer {
+  appearance: none;
+  transition: border 0.3s, box-shadow 0.3s;
+  background: #ffffff;
+
+  font-size: 16px;
+  line-height: 20px;
+  text-align: justify;
+  color: #394048;
+
+  width: 100%;
+  min-width: 200px;
+}
+
+.antSelectContainer:hover > *:first-child {
+}
+
+.antSelectContainer .optionContainer {
+}
+
+.antSelectContainer .optionContainer .optionIcon {
+  display: none;
+}
+
+.antSelectContainer .antSelectPopupContainer {
+}
+
+.antSelectPopupContainer {
+  overflow: visible;
+  padding: 6px 0;
+  flex-grow: 0;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px 2px rgba(44, 58, 110, 0.1);
+  border: solid 1px #cbd0df;
+  background-color: #fff;
+}
+
+.antSelectPopupContainer [aria-selected="true"] {
+  background-color: #fff;
+}
+
+.antSelectPopupContainer .optionWrapper {
+  padding: 0 6px;
+}
+
+.antSelectPopupContainer .optionContainer {
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.antSelectPopupContainer [aria-selected] {
+  min-height: 1px;
+}
+
+.antSelectPopupContainer [aria-selected]:hover .optionContainer {
+  background-color: #f4f5f7;
+}
+
+.antSelectPopupContainer [aria-selected]:hover .optionContainerDelete {
+  background-color: #feeeef;
+}
+
+.antSelectPopupContainer [aria-selected="true"]:hover .optionContainer {
+  background-color: #ecf0ff;
+}
+
+.antSelectPopupContainer .optionContainer .optionIcon {
+}
+
+.antSelectPopupContainer .optionContainer .optionLabel {
+}
+.antSelectPopupContainer .optionContainer .optionLabelDelete {
+  color: #fa545e;
+}
+
+.antSelectPopupContainer [aria-selected] {
+  font-size: 15px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.33;
+  letter-spacing: normal;
+  text-align: left;
+  color: #102a47;
+  padding: 0px;
+}
+
+.antSelectPopupContainer [aria-selected="true"] {
+  font-weight: 500;
+  color: #406aff;
+}
+
+.antSelectPopupContainer [aria-selected]:not(.ant-select-item-option-disabled) {
+  background-color: transparent;
+}

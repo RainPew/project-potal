@@ -1,0 +1,11 @@
+type GetOrderResponse {
+  Order: String!
+}
+
+type Query {
+  getOrder(input: GetOrderInput!): GetOrderResponse
+}
+
+input GetOrderInput {
+  OrderNumber: String!
+}
