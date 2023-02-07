@@ -1,12 +1,12 @@
-import { ApolloError } from "@apollo/client";
+import { ApolloError, gql, useQuery } from "@apollo/client";
 import { css } from "@emotion/css";
 import styled from "@emotion/styled";
 import { isArray, isEmpty } from "lodash";
 import React, { ChangeEventHandler, useEffect, useState } from "react";
-import { useGetOrderQuery } from "../../generated/graphql";
+import { useGetOrderQuery, useGetOrderSpecific } from "../../generated/graphql";
 import { SVGSearch } from "../../svgs/SVGSearch";
 import { EOrderStatus } from "../../types/EOrderStatus";
-import { ISearchOrderRes, Stop } from "../../types/ISearchOrderRes";
+import { ISearchOrderRes, Orders, Stop } from "../../types/ISearchOrderRes";
 import { formatDate, formatTime } from "../../utils/datetime";
 import { COLORS } from "../common/Constants";
 import { Loading } from "../common/Loading";
@@ -17,6 +17,57 @@ interface SearchOrderProps {
   orderNumber: string;
   setOrderNumber: Function;
 }
+export const getStopArray = (stop: any) => {
+  if (isArray(stop)) {
+    return stop;
+  }
+  if (stop) {
+    return [stop];
+  }
+  return [];
+};
+
+export const getDataTable = (orders: (Orders | null)[]) => {
+  if (!orders.length) {
+    return [];
+  }
+  return orders.map((order) => {
+    if (order === null) {
+      return {};
+    }
+    console.log("data table", order);
+    const stop = order?.Stops?.Stop;
+    const stops = getStopArray(stop);
+    stops.sort((a: any, b: any) => {
+      const timeA = new Date(a["@ScheduledDateTime"])?.getTime();
+      const timeB = new Date(b["@ScheduledDateTime"])?.getTime();
+      return timeA - timeB;
+    });
+    const firstStop = stops.find(
+      (stop: any = {}) => stop["@StopType"] === "P"
+      // eslint-disable-next-line no-useless-computed-key
+    ) || { ["@ScheduledDateTimeTZ"]: "" };
+    const timezone = firstStop["@ScheduledDateTimeTZ"] || "";
+    const lastStop = [...stops]
+      .reverse()
+      .find((stop: any = {}) => stop["@StopType"] === "D") || {
+      // eslint-disable-next-line no-useless-computed-key
+      ["@ScheduledDateTimeTZ"]: "",
+    };
+    const timezoneETA = lastStop["@ScheduledDateTimeTZ"] || "";
+    console.log(order?.OrderStatus);
+
+    return {
+      "Order #": order["OrderID"],
+      "Status": order["OrderStatus"],
+      "Dispatched": order["Dispatched"],
+      "Due by": order["DueBy"],
+      "ETA": order["ETA"],
+      Timezone: timezone,
+      TimezoneETA: timezoneETA,
+    };
+  });
+};
 
 const SearchOrder: React.FC<SearchOrderProps> = ({
   orderNumber,
@@ -25,10 +76,28 @@ const SearchOrder: React.FC<SearchOrderProps> = ({
   const [orderNumberInput, setOrderNumberInput] = useState<string>("");
   const [stopName, setStopName] = useState<string>("");
   const [orderNumberSearch, setOrderNumberSearch] = useState<string>("");
-  const { data, loading, error } = useGetOrderQuery({
+  //   variables: {
+  //     input: {
+  //       OrderNumber: orderNumberSearch,
+  //     },
+  //   },
+  //   skip: !orderNumberSearch,
+  //   fetchPolicy: "no-cache",
+  // }) as unknown as {
+  //   data: ISearchOrderRes;
+  //   loading: boolean;
+  //   error: ApolloError | undefined;
+  // };
+  const { data: allOrderData, loading: allOrderLoading, error: allOrderError } = useGetOrderSpecific({
     variables: {
       input: {
-        OrderNumber: orderNumberSearch,
+        Keyword: orderNumberSearch,
+        FromDate: "",
+        ToDate: "01/01/3000",
+        SpecificSearch: "Address",
+        Page: 1,
+        PageSize: 7,
+        ShowCompleted: false,
       },
     },
     skip: !orderNumberSearch,
@@ -43,7 +112,9 @@ const SearchOrder: React.FC<SearchOrderProps> = ({
     if (orderNumberSearch) {
       setOrderNumber(orderNumberSearch);
     }
-  }, [data, orderNumberSearch, setOrderNumber]);
+  }, [allOrderData, orderNumberSearch, setOrderNumber]);
+
+
   const renderSearchResults = () => {
     if (!orderNumberSearch) {
       return (
@@ -61,160 +132,106 @@ const SearchOrder: React.FC<SearchOrderProps> = ({
         </ResultDefaultContainer>
       );
     }
-    if (loading) {
+    if (allOrderLoading) {
       return (
         <LoadingContainer>
           <Loading />
         </LoadingContainer>
       );
     }
-    if (error) {
-      return <div>Error...</div>;
+    if (allOrderError) {
+      return <div>Error</div>;
     }
-
-    if (!data?.getOrder?.Order) {
-      return (
-        <div>
-          <NumberOfOrderFound count={0} />
-          <Spacer height={40} />
-
-          <NotFoundLabel data-testid="lable-not-found">
-            We couldn’t find any order! Please change the search parameters
-          </NotFoundLabel>
-        </div>
-      );
-    }
-
-    const orders = [data?.getOrder?.Order];
-
-    const dataTable = orders.map((order) => {
-      const stop = order?.Stops?.Stop;
-      const stops = isArray(stop) ? stop : stop ? [stop] : [];
-      stops.sort((a: any, b: any) => {
-        const timeA = new Date(a["@ScheduledDateTime"])?.getTime();
-        const timeB = new Date(b["@ScheduledDateTime"])?.getTime();
-        return timeA - timeB;
-      });
-      const firstStop = stops.find(
-        (stop: any = {}) => stop["@StopType"] === "P"
-        // eslint-disable-next-line no-useless-computed-key
-      ) || { ["@ScheduledDateTimeTZ"]: "" };
-      const timezone = firstStop["@ScheduledDateTimeTZ"] || "";
-      const lastStop = [...stops]
-        .reverse()
-        .find((stop: any = {}) => stop["@StopType"] === "D") || {
-        // eslint-disable-next-line no-useless-computed-key
-        ["@ScheduledDateTimeTZ"]: "",
-      };
-      const timezoneETA = lastStop["@ScheduledDateTimeTZ"] || "";
-      return {
-        "Order #": order["@OrderID"],
-        Status: order["@OrderStatus"],
-        Dispatched: order["@DispatchDateTime"],
-        "Due by": order["@DueDateTime"],
-        ETA: (() => {
-          const getETA = (listStop: Stop[]) => {
-            if (isEmpty(listStop)) {
-              return "";
-            }
-            return listStop![listStop!?.length - 1]["@ScheduledDateTime"] || "";
-          };
-          return getETA(order?.Stops?.Stop);
-        })(),
-        Timezone: timezone,
-        TimezoneETA: timezoneETA,
-      };
-    });
+    const orders = allOrderData?.getOrderSearch?.Orders;
+    const dataTable = getDataTable(orders);
     return (
       <div>
         <NumberOfOrderFound count={1} />
         <Spacer height={16} />
-        <div className=" ">
-          <Table
-            role="table-search-order"
-            fnCheckActiveRow={(row: any) => {
-              return row["Order #"] === orderNumber;
-            }}
-            onRowClick={(orderNumber: string) => {
-              setOrderNumber(orderNumber);
-            }}
-            isLoading={false}
-            dataSource={dataTable}
-            headerColumns={[
-              { isSort: false, text: "Order #" },
-              { isSort: false, text: "Status" },
-              { isSort: false, text: "Dispatched" },
-              { isSort: false, text: "Due by" },
-              { isSort: false, text: "ETA" },
-            ]}
-            bodyColumns={[
-              {
-                renderKey: "Order #",
-                render: (order: string) => {
-                  return (
-                    <div
-                      className={css`
-                        font-size: 15px;
-                        line-height: 20px;
-                        text-align: justify;
-                        color: #102a47;
-                      `}
-                    >
-                      {order}
-                    </div>
-                  );
-                },
+        <Table
+          role="table-search-order"
+          fnCheckActiveRow={(row: any) => {
+            return row["Order #"] === orderNumber;
+          }}
+          onRowClick={(orderNumber: string) => {
+            setOrderNumber(orderNumber);
+          }}
+          isLoading={false}
+          dataSource={dataTable}
+          headerColumns={[
+            { isSort: false, text: "Order #" },
+            { isSort: false, text: "Status" },
+            { isSort: false, text: "Dispatched" },
+            { isSort: false, text: "Due by" },
+            { isSort: false, text: "ETA" },
+          ]}
+          bodyColumns={[
+            {
+              renderKey: "Order #",
+              render: (order: string) => {
+                return (
+                  <div
+                    className={css`
+                    font-size: 15px;
+                    line-height: 20px;
+                    text-align: justify;
+                    color: #102a47;
+                  `}
+                  >
+                    {order}
+                  </div>
+                );
               },
-              {
-                renderKey: "Status",
-                render: (orderStatus: keyof typeof EOrderStatus) => {
-                  return <ButtonOrderStatus status={orderStatus} />;
-                },
+            },
+            {
+              renderKey: "Status",
+              render: (status: keyof typeof EOrderStatus) => {
+                return <ButtonOrderStatus status={status} />;
               },
-              {
-                renderKey: "Dispatched",
-                render: (dispatchDate: string, order: any) => {
-                  return (
-                    <DateAndTime
-                      date={dispatchDate}
-                      orderNumber={order["Order #"]}
-                      type={"dispatched"}
-                      timezone={order?.Timezone}
-                    />
-                  );
-                },
+            },
+            {
+              renderKey: "Dispatched",
+              render: (Dispatched: string, order: any) => {
+                return (
+                  <DateAndTime
+                    date={Dispatched}
+                    orderNumber={order["Order #"]}
+                    type={"dispatched"}
+                    timezone={order?.Timezone}
+                  />
+                );
               },
-              {
-                renderKey: "Due by",
-                render: (dueDate: string, order: any) => {
-                  return (
-                    <DateAndTime
-                      orderNumber={order["Order #"]}
-                      type={"due"}
-                      date={dueDate}
-                      timezone={order?.TimezoneETA}
-                    />
-                  );
-                },
+            },
+            {
+              renderKey: "Due by",
+              render: (DueBy: string, order: any) => {
+                return (
+                  <DateAndTime
+                    orderNumber={order["Order #"]}
+                    type={"due"}
+                    date={DueBy}
+                    timezone={order?.TimezoneETA}
+                  />
+                );
               },
+            },
 
-              {
-                renderKey: "ETA",
-                render: (eta: any, order: any) => {
-                  return (
-                    <DateAndTime
-                      date={eta}
-                      orderNumber={order["Order #"]}
-                      type={"eta"}
-                      timezone={order?.TimezoneETA}
-                    />
-                  );
-                },
+            {
+              renderKey: "ETA",
+              render: (ETA: any, order: any) => {
+                return (
+                  <DateAndTime
+                    date={ETA}
+                    orderNumber={order["Order #"]}
+                    type={"eta"}
+                    timezone={order?.TimezoneETA}
+                  />
+                );
               },
-            ]}
-            idKey="Order #"
-          />
-        </div>
+            },
+          ]}
+          idKey="Order #"
+        />
       </div>
     );
   };

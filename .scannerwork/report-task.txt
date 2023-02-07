@@ -1,0 +1,6 @@
+projectKey=potal-project
+serverUrl=https://sonar.evizi.com
+serverVersion=9.7.1.62043
+dashboardUrl=https://sonar.evizi.com/dashboard?id=potal-project
+ceTaskId=AYYKw_Uf8lztYVfRPzjR
+ceTaskUrl=https://sonar.evizi.com/api/ce/task?id=AYYKw_Uf8lztYVfRPzjR

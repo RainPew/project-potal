@@ -3,11 +3,27 @@ scalar JSON
 type GetJsonOrderResponse {
   Order: JSON
 }
+type SpecificSearchOrderRes{
+  Orders: JSON
+}
 
 type Mutation {
   GetJsonOrder(input: GetOrderInput!): GetJsonOrderResponse
 }
+type Mutation {
+  SpecificSearchOrder(input: GetOrderInputSearch!): SpecificSearchOrderRes
+}
 
 input GetOrderInput {
   OrderNumber: String!
+}
+
+input GetOrderInputSearch {
+  Keyword: String!
+  FromDate: String
+  ToDate: String
+  SpecificSearch: String
+  Page: number
+  PageSize: number
+  ShowCompleted: boolean
 }

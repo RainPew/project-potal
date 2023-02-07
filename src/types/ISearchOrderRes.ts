@@ -1,10 +1,27 @@
 export interface ISearchOrderRes {
   getOrder: GetOrder;
+  getOrderSearch: GetOrderSearch;
 }
 
 export interface GetOrder {
   __typename: string;
   Order: Order | null;
+}
+export interface GetOrderSearch {
+  __typename: string;
+  Orders: (Orders | null)[];
+}
+
+export interface Orders {
+  "UserGUID": string;
+  "OrderID" : string;
+  "OrderNumber": string;
+  "OrderStatus": string;
+  "Dispatched": string;
+  "DueDateTime": string;
+  "DueBy": string;
+  "ETA": string;
+  Stops: Stops;
 }
 
 export interface Order {

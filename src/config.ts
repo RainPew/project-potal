@@ -12,7 +12,8 @@ const prod: Environment = {
   gqlApiUrl: process.env.REACT_APP_SERVICES_API_URL || "",
   restApiUrl:
     process.env.REACT_APP_REST_API_URL ||
-    "https://dev001.e-courier.com/dev001/software/xml/ecJsonPost.asmx",
+    // "https://dev001.e-courier.com/dev001/software/xml/ecJsonPost.asmx",
+    "https://dev001.e-courier.com/dev001/software/xml/ecJsonCustomerPortal.asmx",
   website: process.env.REACT_APP_WEBSITE || "dev001",
   siteId: process.env.REACT_APP_SITE_ID || "test1",
 };
@@ -21,7 +22,8 @@ const dev: Environment = {
   gqlApiUrl: process.env.REACT_APP_SERVICES_API_URL || "",
   restApiUrl:
     process.env.REACT_APP_REST_API_URL ||
-    "https://dev001.e-courier.com/dev001/software/xml/ecJsonPost.asmx",
+    // "https://dev001.e-courier.com/dev001/software/xml/ecJsonPost.asmx",
+    "https://dev001.e-courier.com/dev001/software/xml/ecJsonCustomerPortal.asmx",
   website: process.env.REACT_APP_WEBSITE || "dev001",
   siteId: process.env.REACT_APP_SITE_ID || "test1",
 };

@@ -83,10 +83,24 @@ export type GetJsonOrderResponse = {
   __typename?: 'GetJsonOrderResponse';
   Order?: Maybe<Scalars['JSON']>;
 };
+export type SpecificSearchOrderRes = {
+  __typename?: 'SpecificSearchOrderRes';
+  Orders?: Maybe<Scalars['JSON']>;
+};
 
 export type GetOrderInput = {
   OrderNumber: Scalars['String'];
 };
+
+export type GetOrderInputSearch = {
+  Keyword: Scalars['String']
+  FromDate: String
+  ToDate: String
+  SpecificSearch: String
+  Page: number
+  PageSize: number
+  ShowCompleted: boolean
+}
 
 export type GetOrderResponse = {
   __typename?: 'GetOrderResponse';
@@ -969,9 +983,15 @@ export type SaveOrdersMutation = { __typename?: 'Mutation', saveOrders?: { __typ
 export type GetOrderQueryVariables = Exact<{
   input: GetOrderInput;
 }>;
+export type GetOrdersQueryVariablesSearch = Exact<{
+  input: GetOrderInputSearch;
+}>
 
 
-export type GetOrderQuery = { __typename?: 'Query', getOrder?: { __typename?: 'GetOrderResponse', Order: string } | null };
+export type GetOrderQuery = { __typename?: 'Query', getOrder?: { __typename?: 'GetOrderResponse', Order: string } | null }
+
+export type GetOrderQuerySearch = { __typename?: 'Query', getOrderSearch?: { __typename?: 'SpecificSearchOrderRes', Orders: string } | null };
+;
 
 export type GetJsonOrderMutationVariables = Exact<{
   input: GetOrderInput;
@@ -1149,3 +1169,29 @@ export function useGetJsonOrderMutation(baseOptions?: Apollo.MutationHookOptions
 export type GetJsonOrderMutationHookResult = ReturnType<typeof useGetJsonOrderMutation>;
 export type GetJsonOrderMutationResult = Apollo.MutationResult<GetJsonOrderMutation>;
 export type GetJsonOrderMutationOptions = Apollo.BaseMutationOptions<GetJsonOrderMutation, GetJsonOrderMutationVariables>;
+export const GetOrderSearchDocument = gql`
+  query GetOrderSearch($input: GetOrderInputSearch!) {
+    getOrderSearch(input: $input) @rest(type: "SpecificSearchOrderRes", path: "/SpecificSearchOrder", method: "POST") {
+      Orders
+  }
+ }
+    `;
+
+    /**
+ * __useSpecificSearchOrder__
+ *
+ * To run a query within a React component, call `useSpecificSearchOrder` and pass it any options that fit your needs.
+ * When your component renders, `useSpecificSearchOrder` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ *
+ */
+export function useGetOrderSpecific(baseOptions: Apollo.QueryHookOptions<GetOrderQuerySearch, GetOrdersQueryVariablesSearch>) {
+  const options = {...defaultOptions, ...baseOptions}
+  return Apollo.useQuery<GetOrderQuerySearch, GetOrdersQueryVariablesSearch>(GetOrderSearchDocument, options);
+}
+export type GetOrderSpecificHookResul = ReturnType<typeof useGetOrderSpecific>;
+export type GetOrderSpecificResul = Apollo.QueryResult<GetOrderQuerySearch, GetOrdersQueryVariablesSearch>;
