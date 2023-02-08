@@ -1,12 +1,12 @@
-import { ApolloError, gql, useQuery } from "@apollo/client";
+import { ApolloError } from "@apollo/client";
 import { css } from "@emotion/css";
 import styled from "@emotion/styled";
-import { isArray, isEmpty } from "lodash";
+import { isArray } from "lodash";
 import React, { ChangeEventHandler, useEffect, useState } from "react";
-import { useGetOrderQuery, useGetOrderSpecific } from "../../generated/graphql";
+import { useGetOrderSpecific } from "../../generated/graphql";
 import { SVGSearch } from "../../svgs/SVGSearch";
 import { EOrderStatus } from "../../types/EOrderStatus";
-import { ISearchOrderRes, Orders, Stop } from "../../types/ISearchOrderRes";
+import { ISearchOrderRes, Orders } from "../../types/ISearchOrderRes";
 import { formatDate, formatTime } from "../../utils/datetime";
 import { COLORS } from "../common/Constants";
 import { Loading } from "../common/Loading";
@@ -35,7 +35,7 @@ export const getDataTable = (orders: (Orders | null)[]) => {
     if (order === null) {
       return {};
     }
-    console.log("data table", order);
+
     const stop = order?.Stops?.Stop;
     const stops = getStopArray(stop);
     stops.sort((a: any, b: any) => {
@@ -55,7 +55,6 @@ export const getDataTable = (orders: (Orders | null)[]) => {
       ["@ScheduledDateTimeTZ"]: "",
     };
     const timezoneETA = lastStop["@ScheduledDateTimeTZ"] || "";
-    console.log(order?.OrderStatus);
 
     return {
       "Order #": order["OrderID"],
@@ -76,18 +75,7 @@ const SearchOrder: React.FC<SearchOrderProps> = ({
   const [orderNumberInput, setOrderNumberInput] = useState<string>("");
   const [stopName, setStopName] = useState<string>("");
   const [orderNumberSearch, setOrderNumberSearch] = useState<string>("");
-  //   variables: {
-  //     input: {
-  //       OrderNumber: orderNumberSearch,
-  //     },
-  //   },
-  //   skip: !orderNumberSearch,
-  //   fetchPolicy: "no-cache",
-  // }) as unknown as {
-  //   data: ISearchOrderRes;
-  //   loading: boolean;
-  //   error: ApolloError | undefined;
-  // };
+
   const { data: allOrderData, loading: allOrderLoading, error: allOrderError } = useGetOrderSpecific({
     variables: {
       input: {
