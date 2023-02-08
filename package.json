@@ -84,6 +84,7 @@
     "build": "tailwindcss -m -i ./src/index.css -o ./src/index_compiled.css && react-scripts build",
     "test": "react-scripts test --coverage",
     "eject": "react-scripts eject",
+    "test-with-report": "react-scripts test --coverage --coverage --reporters=default --reporters=jest-junit --watchAll=false -w 2",
     "generate": "graphql-codegen --config codegen.yml",
     "check-ts": "yarn tsc --noUnusedLocals --noUnusedParameters",
     "check-format": "prettier --check src",
@@ -157,6 +158,10 @@
     },
     "transformIgnorePatterns": [
       "node_modules/(?!@shotgunjed)/"
+    ],
+    "coveragePathIgnorePatterns": [
+      "src/service/mockdata",
+      "src/config.ts"
     ]
   }
 }
