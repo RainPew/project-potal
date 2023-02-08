@@ -94,9 +94,9 @@ export type GetOrderInput = {
 
 export type GetOrderInputSearch = {
   Keyword: Scalars['String']
-  FromDate: String
-  ToDate: String
-  SpecificSearch: String
+  FromDate: Maybe<Scalars['String']>
+  ToDate: Maybe<Scalars['String']>
+  SpecificSearch: Maybe<Scalars['String']>
   Page: number
   PageSize: number
   ShowCompleted: boolean
